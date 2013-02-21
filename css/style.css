@@ -15,6 +15,10 @@ h1 {
   margin: .3em 0 .1em 0;
 }
 
-small {
-  font-size: 32px;
+section {
+  border: 1px solid #dedede;
+}
+
+footer {
+  margin-top: 20px;
 }

@@ -3,7 +3,7 @@ var width = 960,
     height = 700,
     radius = Math.min(width, height) / 2,
     color = d3.scale.category20(),
-    duration = 1500;
+    duration = 1000;
 
 var svg = d3.select("section").append("svg")
     .attr("width", width)
@@ -48,7 +48,7 @@ function updateRing(ring) {
 }
 
 // Defaults.
-var n_nodes = 4;
+var n_nodes = 5;
 var n_partitions = 32;
 
 // Generate the ring.
@@ -67,12 +67,16 @@ function renderRing(n_nodes, n_partitions) {
 renderRing(n_nodes, n_partitions);
 
 // Handle the ring events.
-document.getElementById("add-node").addEventListener("click", function() {
+d3.selectAll("#add-node").on("click", function(click, i, e) {
+  d3.event.preventDefault();
+
   n_nodes++;
   renderRing(n_nodes, n_partitions);
 });
 
-document.getElementById("remove-node").addEventListener("click", function() {
+d3.selectAll("#remove-node").on("click", function(click) {
+  d3.event.preventDefault();
+
   n_nodes--;
 
   if(n_nodes <= 0) {
