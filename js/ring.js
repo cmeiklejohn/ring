@@ -2,7 +2,8 @@
 var width = 960,
     height = 700,
     radius = Math.min(width, height) / 2,
-    color = d3.scale.category20();
+    color = d3.scale.category20(),
+    duration = 1500;
 
 var svg = d3.select("section").append("svg")
     .attr("width", width)
@@ -36,48 +37,47 @@ function updateRing(ring) {
     .attr("d", arc)
     .style("stroke", "#fff")
     .style("fill", function(d) { return color(d.name); })
-    .style("fill-rule", "evenodd")
+    .style("fill-rule", "evenodd");
 
   partitions
     .transition()
-      .duration(900)
+      .delay(function(d, i) { return i / n_partitions * duration; })
+      .duration(duration)
       .style("fill", function(d) { return color(d.name); });
 
 }
 
 // Defaults.
-var s_nodes = 4;
-var s_partitions = 32;
+var n_nodes = 4;
+var n_partitions = 32;
 
 // Generate the ring.
-function renderRing(s_nodes, s_partitions) {
+function renderRing(n_nodes, n_partitions) {
   var partitions = [];
 
-  for(var i = 0; i <= s_partitions; i++) {
-    partitions.push({ id: i, name: "Node " + i % s_nodes });
+  for(var i = 0; i <= n_partitions; i++) {
+    partitions.push({ id: i, name: "Node " + i % n_nodes });
   }
-
-  console.log(s_nodes);
 
   // Redraw.
   updateRing({ name: "ring", children: partitions });
 }
 
 // Generate initial ring.
-renderRing(s_nodes, s_partitions);
+renderRing(n_nodes, n_partitions);
 
 // Handle the ring events.
 document.getElementById("add-node").addEventListener("click", function() {
-  s_nodes++;
-  renderRing(s_nodes, s_partitions);
+  n_nodes++;
+  renderRing(n_nodes, n_partitions);
 });
 
 document.getElementById("remove-node").addEventListener("click", function() {
-  s_nodes--;
+  n_nodes--;
 
-  if(s_nodes <= 0) {
-    s_nodes = 1;
+  if(n_nodes <= 0) {
+    n_nodes = 1;
   }
 
-  renderRing(s_nodes, s_partitions);
+  renderRing(n_nodes, n_partitions);
 });
