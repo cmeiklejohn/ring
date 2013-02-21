@@ -40,6 +40,7 @@ function updateRing(ring) {
     .style("fill-rule", "evenodd");
 
   partitions
+    .style("opacity", function(d) { return d.down ? 0.5 : 1; })
     .transition()
       .delay(function(d, i) { return i / n_partitions * duration; })
       .duration(duration)
@@ -71,6 +72,7 @@ d3.selectAll("#add-node").on("click", function(click, i, e) {
   d3.event.preventDefault();
 
   n_nodes++;
+
   renderRing(n_nodes, n_partitions);
 });
 
